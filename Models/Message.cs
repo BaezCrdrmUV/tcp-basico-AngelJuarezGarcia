@@ -1,9 +1,11 @@
+using System;
 namespace tcp_com
 {
     public class Message
     {
         public string MessageString { get; set; }
         public string User { get; set; }
+        public string Hora { get; set; }
 
         public Message()
         {
@@ -15,6 +17,7 @@ namespace tcp_com
         {
             this.MessageString = messageString;
             this.User = user;
+            this.Hora = DateTime.Now.ToString("h:mm tt");
         }
     }
 }

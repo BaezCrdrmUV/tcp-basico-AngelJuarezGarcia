@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
 
 namespace tcp_com
 {
@@ -47,11 +48,14 @@ namespace tcp_com
                             client.Send(data);
 
                             // Escucha por nuevos mensajes
+                            Message mensaje;
                             byte[] buffer = new byte[1024];
                             client.Receive(buffer);
 
-                            msg = Encoding.UTF8.GetString(buffer);
-                            Console.WriteLine(msg);
+                            var utfReader = new Utf8JsonReader(buffer);
+                            mensaje = System.Text.Json.JsonSerializer.Deserialize<Message>(ref utfReader);
+                            
+                            Console.WriteLine(mensaje.Hora + "-" + mensaje.User + ": " + mensaje.MessageString);
                         }
                         Console.WriteLine("Cerrando conexión");
                         client.Dispose();
